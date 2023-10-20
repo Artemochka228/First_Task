@@ -1,7 +1,7 @@
 import java.io.File
 
 interface IO {
-    fun read(): Any
+    fun read(): List<String>
     fun write(lines: ArrayList<String>)
 }
 
@@ -100,24 +100,19 @@ fun solve(lines: List<String>): ArrayList<Int> {
 }
 
 fun main() {
-    while(true) {
-        print("Ввод данных в консоли или из файла (C/F)?: ")
-        when (readlnOrNull()) {
-            "C" -> {
-                val console: ConsoleIO = ConsoleIO()
-                val result = console.read()
-                console.write(console.convert(solve(result)))
-                break
-            }
-
-            "F" -> {
-                val file: FileIO = FileIO()
-                val result: List<String> = file.read()
-                file.write(file.convert(solve(result)))
-                break
-            }
-            else -> println("Повторите ввод")
+    print("Ввод данных в консоли или из файла (C/F)?: ")
+    val io = when (readlnOrNull()) {
+        "C" -> {
+            ConsoleIO()
         }
+
+        "F" -> {
+            FileIO()
+        }
+
+        else -> return
     }
+    val result = io.read()
+    io.convert(solve(result))
 
 }
